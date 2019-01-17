@@ -1,12 +1,15 @@
 package com.example.yuriyfutysh.ornato.model;
 
-public class BlouseItem {
+public class ClothingItem {
     private String title;
     private String description;
     private int price;
     private String imageUrl;
 
-    public BlouseItem(String title, String description, int price, String imageUrl) {
+    public ClothingItem() {
+    }
+
+    public ClothingItem(String title, String description, int price, String imageUrl) {
         this.title = title;
         this.description = description;
         this.price = price;

@@ -1,5 +1,6 @@
-package com.example.yuriyfutysh.ornato.ui.blouse;
+package com.example.yuriyfutysh.ornato.ui.dress;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yuriyfutysh.ornato.R;
+import com.example.yuriyfutysh.ornato.data.database.SqliteManager;
 import com.example.yuriyfutysh.ornato.model.ClothingItem;
 import com.example.yuriyfutysh.ornato.ui.Navigation;
 import com.example.yuriyfutysh.ornato.ui.catalogsRecycle.CatalogsRecycleAdapter;
@@ -17,11 +19,12 @@ import com.example.yuriyfutysh.ornato.ui.catalogsRecycle.CatalogsRecycleAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlouseFragment extends Fragment {
+public class DresssFragment extends Fragment {
 
     private Navigation navigation;
     private RecyclerView blousesRecycle;
-    private List<ClothingItem> clothingItems = new ArrayList<>();
+    private DresssFragmentViewHolder dresssFragmentViewHolder;
+    private SqliteManager sqliteManager;
 
     @Nullable
     @Override
@@ -32,10 +35,17 @@ public class BlouseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         blousesRecycle = view.findViewById(R.id.blousesRecycle);
         navigation = (Navigation) getActivity();
+        sqliteManager = new SqliteManager(this.getContext());
+        dresssFragmentViewHolder = ViewModelProviders.of(this).get(DresssFragmentViewHolder.class);
+        dresssFragmentViewHolder.getClothingItemLiveData().observe(this, liveRes -> {
+            setData(liveRes);
+        });
+    }
 
+    public void setData(List<ClothingItem> clothingItems) {
+        CatalogsRecycleAdapter mainMenuVerticalGridAdapter = new CatalogsRecycleAdapter(getContext(), clothingItems, sqliteManager);
+        blousesRecycle.setAdapter(mainMenuVerticalGridAdapter);
     }
 }
-

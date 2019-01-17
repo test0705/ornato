@@ -60,6 +60,8 @@ public class MainMenuVerticalGridAdapter extends RecyclerView.Adapter<MainMenuVe
                     switch (title){
                         case"Блузки": navigation.showBlousePage();
                         break;
+                        case"Сукні": navigation.showDressesPage();
+                        break;
                     }
                 }
             });
