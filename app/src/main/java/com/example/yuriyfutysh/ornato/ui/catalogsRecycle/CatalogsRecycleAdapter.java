@@ -1,7 +1,6 @@
 package com.example.yuriyfutysh.ornato.ui.catalogsRecycle;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -46,7 +45,7 @@ public class CatalogsRecycleAdapter extends RecyclerView.Adapter<CatalogsRecycle
         holder.titleOfClothingTextView.setText(clothingItem.getTitle());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             holder.purchaseFotoImageView.setImageDrawable(context.getResources()
-                    .getDrawable(context.getResources().getIdentifier(clothingItem.getImageUrl(),"drawable",context.getPackageName())));
+                    .getDrawable(context.getResources().getIdentifier(clothingItem.getImageUrl(), "drawable", context.getPackageName())));
         }
     }
 
@@ -66,14 +65,14 @@ public class CatalogsRecycleAdapter extends RecyclerView.Adapter<CatalogsRecycle
             titleOfClothingTextView = view.findViewById(R.id.titleOfClothingTextView);
             purchaseFotoImageView = view.findViewById(R.id.purchaseFotoImageView);
             purchaseButton = view.findViewById(R.id.purchaseButton);
-            purchaseButton.setOnClickListener(v->{
+            purchaseButton.setOnClickListener(v -> {
                 boolean savePurchase = sqliteManager.addPurchaseData(clothingItems.get(getAdapterPosition()).getTitle(),
                         clothingItems.get(getAdapterPosition()).getPrice(),
                         clothingItems.get(getAdapterPosition()).getImageUrl());
-                if (savePurchase == true){
-                    Toast.makeText(context,clothingItems.get(getAdapterPosition()).getTitle() + " saves in database", Toast.LENGTH_LONG).show();
-                }else{
-                    Toast.makeText(context,"Something went wrong", Toast.LENGTH_LONG).show();
+                if (savePurchase == true) {
+                    Toast.makeText(context, clothingItems.get(getAdapterPosition()).getTitle() + " saves in database", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(context, "Something went wrong", Toast.LENGTH_LONG).show();
                 }
             });
         }

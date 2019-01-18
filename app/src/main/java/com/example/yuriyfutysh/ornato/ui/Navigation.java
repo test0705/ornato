@@ -5,5 +5,7 @@ public interface Navigation {
 
     void showBlousePage();
 
-    void showtrousersPage();
+    void showTrousersPage();
+
+    void showPurchaseBucketPage();
 }

@@ -9,6 +9,7 @@ import com.example.yuriyfutysh.ornato.data.database.SqliteManager;
 import com.example.yuriyfutysh.ornato.ui.blouse.BlouseFragment;
 import com.example.yuriyfutysh.ornato.ui.dress.DresssFragment;
 import com.example.yuriyfutysh.ornato.ui.home.HomeFragment;
+import com.example.yuriyfutysh.ornato.ui.purchaseBucket.PurchaseBucketFragment;
 
 public class MainActivity extends AppCompatActivity implements Navigation{
 
@@ -44,7 +45,12 @@ public class MainActivity extends AppCompatActivity implements Navigation{
     }
 
     @Override
-    public void showtrousersPage() {
+    public void showTrousersPage() {
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, new HomeFragment()).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void showPurchaseBucketPage() {
+        getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, new PurchaseBucketFragment()).addToBackStack(null).commit();
     }
 }

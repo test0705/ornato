@@ -1,5 +1,7 @@
 package com.example.yuriyfutysh.ornato.data.database;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -7,7 +9,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 
+import com.example.yuriyfutysh.ornato.model.ClothingItem;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class SqliteManager extends SQLiteOpenHelper {
+
+    private LiveData<Void> purchaseItemMutableLiveDataChanged = new MutableLiveData<>();
+    private MutableLiveData<Integer> purchaseSizeItemMutableLiveDataChanged = new MutableLiveData<>();
+    private List<ClothingItem> clothingItemList = new ArrayList<>();
 
     private static String TABLE_NAME_CLOTHING = "Clothing";
     private static String ID_CLOTHING = "ID";
@@ -88,24 +99,33 @@ public class SqliteManager extends SQLiteOpenHelper {
         return res;
     }
 
-    public Cursor getPurchaseData() {
+    public LiveData<List<ClothingItem>> getPurchaseLiveData() {
+        MutableLiveData<List<ClothingItem>> purchaseItemMutableLiveData = new MutableLiveData<>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + SqliteManager.TABLE_NAME_PURCHASE, null);
-        return res;
+        while (res.moveToNext()) {
+            ClothingItem clothingItem = new ClothingItem();
+            clothingItem.setId(Integer.valueOf(res.getString(0)));
+            clothingItem.setTitle(res.getString(1));
+            clothingItem.setPrice(Integer.valueOf(res.getString(2)));
+            clothingItem.setImageUrl(res.getString(3));
+            clothingItemList.add(clothingItem);
+        }
+        purchaseItemMutableLiveData.setValue(clothingItemList);
+        return purchaseItemMutableLiveData;
     }
 
-    public boolean updateDatabase() {
-        SQLiteDatabase db = this.getWritableDatabase();
+    public void deletePurchaseRowById(String id) {
+        int delete = getWritableDatabase().delete(SqliteManager.TABLE_NAME_PURCHASE, SqliteManager.ID_PURCHASE + "=" + id, null);
+        getPurchaseLiveData();
+    }
 
-// New value for one column
-        String name = "Teodor";
-        String surname = "Driser3";
-        ContentValues values = new ContentValues();
-        values.put(SqliteManager.NAME_CLOTHING, name);
-        values.put(SqliteManager.DESCRIPTION_CLOTHING, surname);
+    public void getPurchaseDataSize() {
+        purchaseSizeItemMutableLiveDataChanged.setValue(getPurchaseLiveData().getValue().size());
+    }
 
-        db.update(SqliteManager.TABLE_NAME_CLOTHING, values, "id = ? ", new String[]{Integer.toString(2)});
-        return true;
+    public LiveData<Integer> getPurchaseDataSizeLiveData() {
+        return purchaseSizeItemMutableLiveDataChanged;
     }
 
 }

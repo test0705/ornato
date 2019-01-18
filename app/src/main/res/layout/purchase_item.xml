@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/idOfPurchase"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        tools:text="1" />
+
+    <TextView
+        android:id="@+id/titleOfPurchase"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        tools:text="Blue dress" />
+
+    <EditText
+        android:id="@+id/quantityOfPurchase"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:hint="К-ть"
+        android:textAlignment="center"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/priceOfPurchase"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        tools:text="3000" />
+
+    <ImageView
+        android:id="@+id/deletePurchaseItemImageView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/delete_img" />
+
+</LinearLayout>

@@ -1,6 +1,7 @@
 package com.example.yuriyfutysh.ornato.model;
 
 public class ClothingItem {
+    private int id;
     private String title;
     private String description;
     private int price;
@@ -9,11 +10,20 @@ public class ClothingItem {
     public ClothingItem() {
     }
 
-    public ClothingItem(String title, String description, int price, String imageUrl) {
+    public ClothingItem(String title, String description, int price, String imageUrl, int id) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.price = price;
         this.imageUrl = imageUrl;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {

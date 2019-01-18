@@ -1,5 +1,6 @@
 package com.example.yuriyfutysh.ornato.ui.home;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.yuriyfutysh.ornato.R;
 import com.example.yuriyfutysh.ornato.model.MainMenuItem;
@@ -21,8 +23,11 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
     private Navigation navigation;
-    private ImageView menuIcon;
-    private RecyclerView mainMenuRecycle;
+    private ImageView menuIconImageView;
+    private ImageView purchaseBucketImageView;
+    private TextView purchaseQuantityTextView;
+    private RecyclerView mainMenuRecycleView;
+    private HomeFragmentViewModel homeFragmentViewModel;
     private boolean menuIsActive = false;
 
     @Nullable
@@ -35,19 +40,28 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        menuIcon = view.findViewById(R.id.menuIcon);
-        mainMenuRecycle = view.findViewById(R.id.mainMenuRecycle);
+        menuIconImageView = view.findViewById(R.id.menuIcon);
+        purchaseBucketImageView = view.findViewById(R.id.purchaseBucketImageView);
+        purchaseQuantityTextView = view.findViewById(R.id.purchaseQuantity);
+        mainMenuRecycleView = view.findViewById(R.id.mainMenuRecycle);
         navigation = (Navigation) getActivity();
 
-        menuIcon.setOnClickListener(v -> {
+        homeFragmentViewModel = ViewModelProviders.of(this).get(HomeFragmentViewModel.class);
+        homeFragmentViewModel.getClothingItemQuantityLiveData().observe(this, quantityRes -> {
+            purchaseQuantityTextView.setText(String.valueOf(quantityRes));
+        });
+        menuIconImageView.setOnClickListener(v -> {
             System.out.println("go");
             if (!menuIsActive) {
-                mainMenuRecycle.setVisibility(View.VISIBLE);
+                mainMenuRecycleView.setVisibility(View.VISIBLE);
                 menuIsActive = true;
-            }else{
-                mainMenuRecycle.setVisibility(View.INVISIBLE);
+            } else {
+                mainMenuRecycleView.setVisibility(View.INVISIBLE);
                 menuIsActive = false;
             }
+        });
+        purchaseBucketImageView.setOnClickListener(v -> {
+            navigation.showPurchaseBucketPage();
         });
 
         setData();
@@ -65,6 +79,6 @@ public class HomeFragment extends Fragment {
 
         MainMenuVerticalGridAdapter mainMenuVerticalGridAdapter = new MainMenuVerticalGridAdapter(getContext(), navigation, menuItemList);
 
-        mainMenuRecycle.setAdapter(mainMenuVerticalGridAdapter);
+        mainMenuRecycleView.setAdapter(mainMenuVerticalGridAdapter);
     }
 }
