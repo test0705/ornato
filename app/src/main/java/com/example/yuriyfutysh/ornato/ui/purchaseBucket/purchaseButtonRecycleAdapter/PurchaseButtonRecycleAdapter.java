@@ -1,7 +1,6 @@
 package com.example.yuriyfutysh.ornato.ui.purchaseBucket.purchaseButtonRecycleAdapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import com.example.yuriyfutysh.ornato.data.database.SqliteManager;
 import com.example.yuriyfutysh.ornato.model.ClothingItem;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class PurchaseButtonRecycleAdapter extends RecyclerView.Adapter<PurchaseButtonRecycleAdapter.ViewHolder> {
 
@@ -40,7 +38,7 @@ public class PurchaseButtonRecycleAdapter extends RecyclerView.Adapter<PurchaseB
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ClothingItem clothingItem = clothingItemList.get(position);
-        holder.idOfPurchase.setText(String.valueOf(position+1));
+        holder.idOfPurchase.setText(String.valueOf(position + 1));
         holder.priceOfPurchase.setText(String.valueOf(clothingItem.getPrice()));
         holder.titleOfPurchase.setText(clothingItem.getTitle());
     }
@@ -60,8 +58,11 @@ public class PurchaseButtonRecycleAdapter extends RecyclerView.Adapter<PurchaseB
             titleOfPurchase = view.findViewById(R.id.titleOfPurchase);
             idOfPurchase = view.findViewById(R.id.idOfPurchase);
             deletePurchaseItemImageView = view.findViewById(R.id.deletePurchaseItemImageView);
-            deletePurchaseItemImageView.setOnClickListener(v->{
+            deletePurchaseItemImageView.setOnClickListener(v -> {
                 sqliteManager.deletePurchaseRowById(String.valueOf(clothingItemList.get(getAdapterPosition()).getId()));
+                clothingItemList.remove(getAdapterPosition());
+                notifyItemRemoved(getAdapterPosition());
+                notifyItemRangeChanged(getAdapterPosition(), clothingItemList.size());
             });
         }
     }

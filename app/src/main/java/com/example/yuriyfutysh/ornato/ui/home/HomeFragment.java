@@ -1,6 +1,6 @@
 package com.example.yuriyfutysh.ornato.ui.home;
 
-import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yuriyfutysh.ornato.R;
+import com.example.yuriyfutysh.ornato.data.database.SqliteManager;
 import com.example.yuriyfutysh.ornato.model.MainMenuItem;
 import com.example.yuriyfutysh.ornato.ui.Navigation;
 import com.example.yuriyfutysh.ornato.ui.home.mainMenuRecycleView.MainMenuVerticalGridAdapter;
@@ -27,8 +28,12 @@ public class HomeFragment extends Fragment {
     private ImageView purchaseBucketImageView;
     private TextView purchaseQuantityTextView;
     private RecyclerView mainMenuRecycleView;
-    private HomeFragmentViewModel homeFragmentViewModel;
     private boolean menuIsActive = false;
+    private SqliteManager sqliteManager;
+
+    public HomeFragment() {
+        sqliteManager = new SqliteManager(getContext());
+    }
 
     @Nullable
     @Override
@@ -45,11 +50,8 @@ public class HomeFragment extends Fragment {
         purchaseQuantityTextView = view.findViewById(R.id.purchaseQuantity);
         mainMenuRecycleView = view.findViewById(R.id.mainMenuRecycle);
         navigation = (Navigation) getActivity();
-
-        homeFragmentViewModel = ViewModelProviders.of(this).get(HomeFragmentViewModel.class);
-        homeFragmentViewModel.getClothingItemQuantityLiveData().observe(this, quantityRes -> {
-            purchaseQuantityTextView.setText(String.valueOf(quantityRes));
-        });
+        getLifecycle().addObserver(new HomeFragmentViewModel());
+        purchaseQuantityTextView.setText(String.valueOf(sqliteManager.getSize()));
         menuIconImageView.setOnClickListener(v -> {
             System.out.println("go");
             if (!menuIsActive) {
@@ -80,5 +82,60 @@ public class HomeFragment extends Fragment {
         MainMenuVerticalGridAdapter mainMenuVerticalGridAdapter = new MainMenuVerticalGridAdapter(getContext(), navigation, menuItemList);
 
         mainMenuRecycleView.setAdapter(mainMenuVerticalGridAdapter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+//        getLifecycle().addObserver(new HomeFragmentViewModel());
+//        HomeFragmentViewModel homeFragmentViewModel = ViewModelProviders.of(this).get(HomeFragmentViewModel.class);
+//        homeFragmentViewModel.getListLiveData().observe(this, new Observer<List<ClothingItem>>() {
+//            @Override
+//            public void onChanged(@Nullable List<ClothingItem> clothingItems) {
+//                if (clothingItems != null) {
+//                    purchaseQuantityTextView.setText(String.valueOf(clothingItems.size()));
+//                }
+//            }
+//        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 }

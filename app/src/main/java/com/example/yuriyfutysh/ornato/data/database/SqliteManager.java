@@ -16,9 +16,8 @@ import java.util.List;
 
 public class SqliteManager extends SQLiteOpenHelper {
 
-    private LiveData<Void> purchaseItemMutableLiveDataChanged = new MutableLiveData<>();
-    private MutableLiveData<Integer> purchaseSizeItemMutableLiveDataChanged = new MutableLiveData<>();
     private List<ClothingItem> clothingItemList = new ArrayList<>();
+    private MutableLiveData<List<ClothingItem>> purchaseMutableLiveData = new MutableLiveData<>();
 
     private static String TABLE_NAME_CLOTHING = "Clothing";
     private static String ID_CLOTHING = "ID";
@@ -99,8 +98,7 @@ public class SqliteManager extends SQLiteOpenHelper {
         return res;
     }
 
-    public LiveData<List<ClothingItem>> getPurchaseLiveData() {
-        MutableLiveData<List<ClothingItem>> purchaseItemMutableLiveData = new MutableLiveData<>();
+    public LiveData<List<ClothingItem>> geteData() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + SqliteManager.TABLE_NAME_PURCHASE, null);
         while (res.moveToNext()) {
@@ -111,21 +109,30 @@ public class SqliteManager extends SQLiteOpenHelper {
             clothingItem.setImageUrl(res.getString(3));
             clothingItemList.add(clothingItem);
         }
-        purchaseItemMutableLiveData.setValue(clothingItemList);
-        return purchaseItemMutableLiveData;
+        purchaseMutableLiveData.setValue(clothingItemList);
+
+        return this.purchaseMutableLiveData;
     }
 
     public void deletePurchaseRowById(String id) {
-        int delete = getWritableDatabase().delete(SqliteManager.TABLE_NAME_PURCHASE, SqliteManager.ID_PURCHASE + "=" + id, null);
-        getPurchaseLiveData();
+        getWritableDatabase().delete(SqliteManager.TABLE_NAME_PURCHASE, SqliteManager.ID_PURCHASE + "=" + id, null);
     }
 
-    public void getPurchaseDataSize() {
-        purchaseSizeItemMutableLiveDataChanged.setValue(getPurchaseLiveData().getValue().size());
+    public MutableLiveData<List<ClothingItem>> getPurchaseLiveData() {
+        return purchaseMutableLiveData;
     }
 
-    public LiveData<Integer> getPurchaseDataSizeLiveData() {
-        return purchaseSizeItemMutableLiveDataChanged;
+    public int getSize() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + SqliteManager.TABLE_NAME_PURCHASE, null);
+        while (res.moveToNext()) {
+            ClothingItem clothingItem = new ClothingItem();
+            clothingItem.setId(Integer.valueOf(res.getString(0)));
+            clothingItem.setTitle(res.getString(1));
+            clothingItem.setPrice(Integer.valueOf(res.getString(2)));
+            clothingItem.setImageUrl(res.getString(3));
+            clothingItemList.add(clothingItem);
+        }
+        return clothingItemList.size();
     }
-
 }

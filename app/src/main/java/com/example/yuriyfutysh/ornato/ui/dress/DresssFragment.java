@@ -1,5 +1,6 @@
 package com.example.yuriyfutysh.ornato.ui.dress;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,7 +17,6 @@ import com.example.yuriyfutysh.ornato.model.ClothingItem;
 import com.example.yuriyfutysh.ornato.ui.Navigation;
 import com.example.yuriyfutysh.ornato.ui.catalogsRecycle.CatalogsRecycleAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DresssFragment extends Fragment {
@@ -39,8 +39,11 @@ public class DresssFragment extends Fragment {
         navigation = (Navigation) getActivity();
         sqliteManager = new SqliteManager(this.getContext());
         dresssFragmentViewHolder = ViewModelProviders.of(this).get(DresssFragmentViewHolder.class);
-        dresssFragmentViewHolder.getClothingItemLiveData().observe(this, liveRes -> {
-            setData(liveRes);
+        dresssFragmentViewHolder.getClothingItemLiveData().observe(this, new Observer<List<ClothingItem>>() {
+            @Override
+            public void onChanged(@Nullable List<ClothingItem> clothingItems) {
+                setData(clothingItems);
+            }
         });
     }
 

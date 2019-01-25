@@ -1,17 +1,15 @@
 package com.example.yuriyfutysh.ornato.ui;
 
-import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.yuriyfutysh.ornato.R;
-import com.example.yuriyfutysh.ornato.data.database.SqliteManager;
 import com.example.yuriyfutysh.ornato.ui.blouse.BlouseFragment;
 import com.example.yuriyfutysh.ornato.ui.dress.DresssFragment;
 import com.example.yuriyfutysh.ornato.ui.home.HomeFragment;
 import com.example.yuriyfutysh.ornato.ui.purchaseBucket.PurchaseBucketFragment;
 
-public class MainActivity extends AppCompatActivity implements Navigation{
+public class MainActivity extends AppCompatActivity implements Navigation {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,27 +28,27 @@ public class MainActivity extends AppCompatActivity implements Navigation{
 //            String string1 = passportData.getString(0);
 //        }
 
-        getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, new HomeFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HomeFragment()).commit();
 
     }
 
     @Override
     public void showDressesPage() {
-        getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, new DresssFragment()).addToBackStack(null).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new DresssFragment()).addToBackStack(null).commit();
     }
 
     @Override
     public void showBlousePage() {
-        getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, new BlouseFragment()).addToBackStack(null).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new BlouseFragment()).addToBackStack(null).commit();
     }
 
     @Override
     public void showTrousersPage() {
-        getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, new HomeFragment()).addToBackStack(null).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HomeFragment()).addToBackStack(null).commit();
     }
 
     @Override
     public void showPurchaseBucketPage() {
-        getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, new PurchaseBucketFragment()).addToBackStack(null).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new PurchaseBucketFragment()).addToBackStack(null).commit();
     }
 }

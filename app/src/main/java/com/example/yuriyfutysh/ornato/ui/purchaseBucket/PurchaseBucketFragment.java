@@ -1,5 +1,6 @@
 package com.example.yuriyfutysh.ornato.ui.purchaseBucket;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,8 +34,11 @@ public class PurchaseBucketFragment extends Fragment {
 
         purchaseBucketFragmentViewModel = ViewModelProviders.of(this).get(PurchaseBucketFragmentViewModel.class);
         purchaseRecycleview = view.findViewById(R.id.purchaseRecycleview);
-        purchaseBucketFragmentViewModel.getPurchaseItemMutableLiveData().observe(this, clothingItems -> {
-            setData(clothingItems);
+        purchaseBucketFragmentViewModel.getPurchaseItemMutableLiveData().observe(this, new Observer<List<ClothingItem>>() {
+            @Override
+            public void onChanged(@Nullable List<ClothingItem> clothingItems) {
+                setData(clothingItems);
+            }
         });
 
     }
